@@ -1,7 +1,9 @@
 package test.service;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Scanner;
 
@@ -10,12 +12,11 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import fr.pizzeria.dao.IPizzaDao;
-import fr.pizzeria.dao.PizzaMemDao;
 import fr.pizzeria.services.MenuService;
 import fr.pizzeria.services.ModifierPizzaService;
 
 public class ModifiePizzaServiceTest {
-	IPizzaDao dao;
+
 
 	/** Création d'une "Rule" qui va permettre
 	 * de substituer le System.in utilisé par le Scanner
@@ -25,14 +26,22 @@ public class ModifiePizzaServiceTest {
 
 	@Test
 	public void executeUCTest(){
-		dao = new PizzaMemDao();
-		systemInMock.provideLines("PEP", "SUP", "superieur","12");
+		systemInMock.provideLines("SUP", "PAP", "superieur","12");
+		IPizzaDao mockDao = mock(IPizzaDao.class);
 		
 		MenuService modifieService = new ModifierPizzaService();
-		modifieService.executeUC(new Scanner(System.in), dao);
-		System.out.println(dao.findAllPizzas());
 		
-		assertTrue("La pizza est modifier", dao.findPizzaByCode("SUP").getCode().equals("SUP"));
+		 try{
+			 modifieService.executeUC(new Scanner(System.in), mockDao);
+			 when(mockDao).thenThrow(new NullPointerException());
+			 
+		 }catch(Exception e){
+			System.out.println(e.getMessage());
+		 }
+		
+	   assertNull(mockDao.findPizzaByCode("PAP"));
+	
+		
 	}
 
 	

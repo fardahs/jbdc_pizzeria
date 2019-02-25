@@ -17,7 +17,7 @@ public class PizzeriaAdminConsoleApp {
 
 		/* Initialisation du TDB de pizzas */
 		IPizzaDao dao = new PizzaMemDao();
-		try {
+/*		try {
 			dao = new PizzaDatabaseDao();
 		} catch (IOException e) {
 
@@ -25,7 +25,7 @@ public class PizzeriaAdminConsoleApp {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		}
+		}*/
 
 
 		/* Initialisation du scanner */
